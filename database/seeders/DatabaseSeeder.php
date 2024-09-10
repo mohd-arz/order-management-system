@@ -6,6 +6,7 @@ namespace Database\Seeders;
 
 use App\Models\Product;
 use App\Models\Status;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -17,10 +18,12 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        User::factory()->create([
+            'name' => 'Admin',
+            'email' => 'admin@gmail.com',
+            'user_type' => 'admin',
+            'password' => '12345678'
+        ]);
         Product::factory()->count(5)->create();
         $statuses = ['Pending','Shipped','Delivered','Cancelled'];
         foreach($statuses  as $status){
