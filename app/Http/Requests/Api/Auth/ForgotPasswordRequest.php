@@ -28,7 +28,6 @@ class ForgotPasswordRequest extends FormRequest
     {
         return [
             "email" => "required|email|",
-            "new_password" => "required|min:8",
         ];
     }
     public function message():array
@@ -36,8 +35,6 @@ class ForgotPasswordRequest extends FormRequest
         return [
             'email.required' => 'The email field is required.',
             'email.email' => 'The email must be a valid email address.',
-            'new_password.required' => 'The password field is required.',
-            'new_password.min' => 'The password must be at least 8 characters.',
         ];
     }
 }

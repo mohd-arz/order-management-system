@@ -1,11 +1,14 @@
 <?php
 namespace App\Actions\Api\Auth;
 
+use App\Mail\ForgotMail;
 use App\Models\User;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use Throwable;
 
 class ForgotPasswordAction{
@@ -16,7 +19,10 @@ class ForgotPasswordAction{
       if(!$user){
         return ['status'=>false,'message'=>'User does not exist','code'=>422];
       }
-      $user->password = Hash::make($collection['new_password']);
+      $new_password = Str::random(10);
+      $user->password = Hash::make($new_password);
+      Mail::to($collection['email'])
+      ->send(new ForgotMail(data:['new_password'=>$new_password,'name'=>$user->name]));
       $user->save();
       DB::commit();
       return ['status'=>true,'message'=>'Password resets successfully'];;
